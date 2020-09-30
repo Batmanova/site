@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <a href="{{ url_for('index') }}">All Deals</a>
+    {% if current_user.is_anonymous %}
+    <a href="{{ url_for('login') }}">Login</a>
+    {% else %}
+    <a href="{{ url_for('creates1') }}">Create</a>
+    <a href="{{ url_for('delete') }}">Delete</a>
+    {% if collections %}
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        {{ form.filter.label }}:
+        {{ form.filter(size=10) }}
+        {{ form.submit() }}
+    </form>
+    <ul>
+    {% for collection in collections %}
+        {% if loop.index0 == 0 or collections[loop.index0-1].numb != collection.numb %}
+        {% set d = collection.numb %}
+        {{ collection.numb|strftime }}
+        {% endif %}
+        <li>{{ collection.name}}</li>
+    {% endfor %}
+    </ul>
+    {% else %}
+    <p> No deals planed
+    {% endif %}
+    {% endif %}
+{% endblock %}
